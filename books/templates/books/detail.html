@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ book.name }} ({{ book.release_year }}
+{% endblock title %}
+
+{% block content %}
+<h2>Detalhes do Livro {{ book.name }} ({{ book.release_year }})</h2>
+
+<section class="dados-de-livro">
+    <img src="{{ book.capa_url }}" alt="Capa do livro {{ book.name}}">
+    <ul>
+        <li>Nome: {{ book.name }}</li>
+        <li>Ano de Lançamento: {{ book.release_year }} </li>
+    </ul>
+</section>
+
+{% endblock content %}

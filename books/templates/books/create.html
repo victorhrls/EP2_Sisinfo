@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Inserir Novo Livro</h2>
+<form method="POST" action="{% url 'books:create' %}">
+    {% csrf_token %}
+    <p>
+        <label for="id_name">Título:</label>
+        <input type="text" name="name" id="id_name" />
+    </p>
+    <p>
+        <label for="id_release_year">Ano de Lançamento:</label>
+        <input type="number" name="release_year" id="id_release_year" />
+    </p>
+    <p>
+        <label for="id_capa_url">URL da Capa:</label>
+        <input type="url" name="capa_url" id="id_capa_url" />
+    </p>
+    <button type="submit">Criar</button>
+</form>
+
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Busca de Livros por Nome</h2>
+<form action="{% url 'books:search' %}">
+    <p>
+        <label for="id_query">Título:</label>
+        <input type="text" name="query" id="id_query" />
+    </p>
+    <button type="submit">Buscar</button>
+</form>
+
+
+<h2>Resultado da Busca</h2>
+{% if book_list %}
+<section class="lista-de-cards">
+    {% for book in book_list %}
+    <article class="card">
+        <img src="{{ book.poster_url }}" alt="Capa do livro {{ book.name}}">
+        <p>{{ book.name }} ({{ book.release_year }})</p>
+    </article>
+    {% endfor %}
+</section>
+{% else %}
+<p>Nenhum livro encontrado com a busca.</p>
+{% endif %}
+
+{% endblock content %}
