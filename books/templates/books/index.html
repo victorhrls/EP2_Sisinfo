@@ -10,7 +10,7 @@
 <section class="lista-de-cards">
     {% for book in book_list %}
     <article class="card">
-        <a href="{% url 'books:detail' forloop.counter %}"><img src="{{ book.poster_url }}"
+        <a href="{% url 'books:detail' forloop.counter %}"><img src="{{ book.capa_url }}"
                 alt="Capa do livro {{ book.name}}"></a>
         <p>{{ book.name }} ({{ book.release_year }})</p>
     </article>

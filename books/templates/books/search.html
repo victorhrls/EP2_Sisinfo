@@ -16,7 +16,7 @@
 <section class="lista-de-cards">
     {% for book in book_list %}
     <article class="card">
-        <img src="{{ book.poster_url }}" alt="Capa do livro {{ book.name}}">
+        <img src="{{ book.capa_url }}" alt="Capa do livro {{ book.name}}">
         <p>{{ book.name }} ({{ book.release_year }})</p>
     </article>
     {% endfor %}
