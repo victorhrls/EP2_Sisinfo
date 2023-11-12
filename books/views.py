@@ -27,16 +27,27 @@ def list_books(request):
     return render(request, 'books/index.html', context)
 
 
+
+def delete_book(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+
+    if request.method == "POST":
+        book.delete()
+        return HttpResponseRedirect(reverse("books:index"))
+
+    context = {"book": book}
+    return render(request, "books/delete.html", context)
+
+
+
 def search_books(request):
     context = {}
-    if request.GET.get('query', False):
-        context = {
-            "book_list": [
-                m for m in book_data
-                if request.GET['query'].lower() in m['name'].lower()
-            ]
-        }
-    return render(request, 'books/search.html', context)
+    if request.GET.get("query", False):
+        search_term = request.GET["query"].lower()
+        book_list = Book.objects.filter(name__icontains=search_term)
+        context = {"book_list": book_list}
+    return render(request, "books/search.html", context)
+
 
 @login_required
 @permission_required('books.add_book')
@@ -76,13 +87,36 @@ def create_review(request, pk):
     return render(request, 'books/review.html', context)
 
 
+def update_book(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            book.name = form.cleaned_data["name"]
+            book.release_year = form.cleaned_data["release_year"]
+            book.poster_url = form.cleaned_data["capa_url"]
+            book.save()
+            return HttpResponseRedirect(reverse("books:detail", args=(book.id,)))
+    else:
+        form = BookForm(
+            initial={
+                "name": book.name,
+                "release_year": book.release_year,
+                "capa_url": book.capa_url,
+            }
+        )
+
+    context = {"movie": movie, "form": form}
+    return render(request, "movies/update.html", context)
+
 
 
 def detail_book(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
-    request.session['last_viewed'] = book_id
-    context = {'book': book}
-    return render(request, 'books/detail.html', context)
+    context = {"book": book}
+    return render(request, "books/detail.html", context)
+
 
 
 

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Atualizar Dados do Livro {{ book.name }} ({{ book.release_year }})</h2>
+    <form method="POST" action="{% url 'books:update' book.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Atualizar</button>
+    </form>
+{% endblock content %}
