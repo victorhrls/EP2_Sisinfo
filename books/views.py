@@ -8,7 +8,8 @@ from django.views import generic
 from .forms import BookForm
 from .models import Book, Review
 from .forms import BookForm, ReviewForm
-
+from django.urls import reverse, reverse_lazy
+from .models import Book, Review, List
 
 
 class BookDetailView(generic.DetailView):
@@ -64,3 +65,15 @@ def create_review(request, pk):
         form = ReviewForm()
     context = {'form': form, 'book': book}
     return render(request, 'books/review.html', context)
+
+
+class ListListView(generic.ListView):
+    model = List
+    template_name = 'books/lists.html'
+
+
+class ListCreateView(generic.CreateView):
+    model = List
+    template_name = 'books/create_list.html'
+    fields = ['name', 'author', 'books']
+    success_url = reverse_lazy('books:lists')

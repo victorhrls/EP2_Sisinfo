@@ -22,3 +22,11 @@ class Review(models.Model):
 
     def __str__(self):
         return f'"{self.text}" - {self.author}'
+
+class List(models.Model):
+    author = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    books = models.ManyToManyField(Book)
+
+    def __str__(self):
+        return f'{self.name} by {self.author}'

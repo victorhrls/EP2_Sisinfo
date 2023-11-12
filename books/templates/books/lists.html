@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+    Listas
+{% endblock title %}
+{% block content %}
+    <h2>Listas de Livros</h2>
+    <section>
+        {% for list in list_list %}
+            <hr>
+            <article>
+                <header>
+                    <h3>{{ list.name }} (de {{ list.author }})</h3>
+                </header>
+                <div class="lista-de-cards">
+                    {% for book in list.books.all %}
+                        <div class="card">
+                            <a href="{% url 'books:detail' book.id %}">
+                                <img src="{{ book.capa_url }}" alt="Capa do livro {{ book.name }}">
+                            </a>
+                            <p>{{ book.name }} ({{ book.release_year }})</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </article>
+        {% endfor %}
+    </section>
+{% endblock content %}
