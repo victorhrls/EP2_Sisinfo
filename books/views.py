@@ -2,6 +2,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .temp_data import book_data
 from django.shortcuts import render
+from .models import Book
+
 
 
 def detail_book(request, book_id):
@@ -37,3 +39,8 @@ def create_book(request):
             reverse('books:detail', args=(len(book_data), )))
     else:
         return render(request, 'books/create.html', {})
+
+def list_books(request):
+    book_list = Book.objects.all()
+    context = {"book_list": book_list}
+    return render(request, 'books/index.html', context)
