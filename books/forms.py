@@ -20,3 +20,5 @@ class ReviewForm(ModelForm):
         labels = {
             'text': 'Critica',
         }
+
+

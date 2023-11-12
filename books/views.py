@@ -38,7 +38,8 @@ def search_books(request):
         }
     return render(request, 'books/search.html', context)
 
-
+@login_required
+@permission_required('books.add_book')
 def create_book(request):
     if request.method == 'POST':
         form =BookForm(request.POST)
@@ -57,12 +58,14 @@ def create_book(request):
     context = {'form': form}
     return render(request, 'books/create.html', context)
 
+    
+@login_required
 def create_review(request, pk):
     book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
-            review_author = form.cleaned_data['author']
+            review_author = request.user
             review_text = form.cleaned_data['text']
             book.review_set.create(author=review_author, text=review_text)
             return HttpResponseRedirect(
@@ -73,13 +76,6 @@ def create_review(request, pk):
     return render(request, 'books/review.html', context)
 
 
-@login_required
-def create_review(request, book_id):
-    book = get_object_or_404(Book, pk=book_id)
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            review_author = request.user 
 
 
 def detail_book(request, book_id):
