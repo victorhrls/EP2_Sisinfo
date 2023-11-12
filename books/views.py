@@ -10,15 +10,21 @@ from .models import Book, Review
 from .forms import BookForm, ReviewForm
 from django.urls import reverse, reverse_lazy
 from .models import Book, Review, List
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
 
 class BookDetailView(generic.DetailView):
     model = Book
     template_name = 'books/detail.html'
 
-class BookListView(generic.ListView):
-    model = Book
-    template_name = 'books/index.html'
+def list_books(request):
+    book_list = Book.objects.all()
+    context = {'book_list': book_list}
+    last_book_id = request.session.get('last_viewed', None)
+    if last_book_id:
+        context["last_book"] = Book.objects.get(pk=last_book_id)
+    return render(request, 'books/index.html', context)
 
 
 def search_books(request):
@@ -65,6 +71,23 @@ def create_review(request, pk):
         form = ReviewForm()
     context = {'form': form, 'book': book}
     return render(request, 'books/review.html', context)
+
+
+@login_required
+def create_review(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review_author = request.user 
+
+
+def detail_book(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+    request.session['last_viewed'] = book_id
+    context = {'book': book}
+    return render(request, 'books/detail.html', context)
+
 
 
 class ListListView(generic.ListView):
