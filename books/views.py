@@ -6,6 +6,8 @@ from .models import Book
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from .forms import BookForm
+from .models import Book, Review
+from .forms import BookForm, ReviewForm
 
 
 
@@ -47,3 +49,18 @@ def create_book(request):
         form = BookForm()
     context = {'form': form}
     return render(request, 'books/create.html', context)
+
+def create_review(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review_author = form.cleaned_data['author']
+            review_text = form.cleaned_data['text']
+            book.review_set.create(author=review_author, text=review_text)
+            return HttpResponseRedirect(
+                reverse('books:detail', args=(pk, )))
+    else:
+        form = ReviewForm()
+    context = {'form': form, 'book': book}
+    return render(request, 'books/review.html', context)

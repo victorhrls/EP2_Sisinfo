@@ -7,12 +7,30 @@
 {% block content %}
 <h2>Detalhes do Livro {{ book.name }} ({{ book.release_year }})</h2>
 
-<section class="dados-de-livro">
-    <img src="{{ book.capa_url }}" alt="Capa do livro {{ book.name}}">
+</section>
+
+<hr>
+
+<section>
+    <header>
+        <h3>Críticas</h3>
+    </header>
     <ul>
-        <li>Nome: {{ book.name }}</li>
-        <li>Ano de Lançamento: {{ book.release_year }} </li>
+        {% if book.review_set.all %}
+            {% for review in book.review_set.all %}
+                <figure>
+                    <blockquote>
+                        "{{ review.text }}"
+                    </blockquote>
+                    <figcaption>—{{ review.author }}</figcaption>
+                </figure>
+            {% endfor %}
+        {% else %}
+            <p>Ainda não existe nenhuma crítica para esse livro.</p>
+        {% endif %}
     </ul>
 </section>
 
 {% endblock content %}
+
+
