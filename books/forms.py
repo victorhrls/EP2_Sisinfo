@@ -9,6 +9,7 @@ class BookForm(ModelForm):
             'name',
             'release_year',
             'capa_url',
+            'categoria',
         ]
 
 class ReviewForm(ModelForm):

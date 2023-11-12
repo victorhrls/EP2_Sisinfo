@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{{ book.name }} ({{ book.release_year }}
+{{ book.name }} ({{ book.release_year }} ({{book.categoria}})
 {% endblock title %}
 
 {% block content %}
-<h2>Detalhes do Livro {{ book.name }} ({{ book.release_year }})</h2>
-
+<h2>Detalhes do Livro {{ book.name }} ({{ book.release_year }}) ({{book.categoria}}</h2>
+        <li>
+            <a href="{% url 'books:update' book.id %}">Editar</a>
+        </li>
+        <li>
+            <a href="{% url 'books:delete' book.id %}">Apagar</a>
+        </li>
+    </ul>
 </section>
+
 
 <hr>
 
@@ -29,6 +36,11 @@
             <p>Ainda não existe nenhuma crítica para esse livro.</p>
         {% endif %}
     </ul>
+
+    <a href="{% url 'books:review' book.pk %}">
+        <button>Crie sua Critica</button>
+    </a>
+
 </section>
 
 {% endblock content %}

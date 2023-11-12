@@ -19,7 +19,7 @@
         <a href="{% url 'books:detail' book.id %}"> 
             <img src="{{ book.capa_url }}" alt="Capa do livro {{ book.name}}">
         </a> 
-        <p>{{ book.name }} ({{ book.release_year }})</p>
+        <p>{{ book.name }} ({{ book.release_year }}) ({{book.categoria}})</p>
     </article>
     {% endfor %}
 </section>

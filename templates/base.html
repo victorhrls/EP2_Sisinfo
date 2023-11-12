@@ -16,7 +16,7 @@
 
 <body>
     <header id="cabecalho-principal">
-        <a href="{% url 'index' %}"> <img src="{% static 'imagem.svg' %}"> </a>
+        <a href="{% url 'index' %}"> <img src="{% static 'final.svg' %}"> </a>
         <nav id="navegacao-principal">
             <ul>
                 {% if user.is_authenticated %}
@@ -36,10 +36,8 @@
         {% block content %}
         {% endblock content %}
     </main>
-    <footer id="rodape-principal">
-        <p>
-            <small>Copyright 2023</small>
-        </p>
+    <footer>
+        <p>&copy; 2023 BlogShelved. Todos os direitos reservados.</p>
     </footer>
 </body>
 

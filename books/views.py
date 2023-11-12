@@ -58,9 +58,11 @@ def create_book(request):
             book_name = form.cleaned_data['name']
             book_release_year = form.cleaned_data['release_year']
             book_capa_url = form.cleaned_data['capa_url']
+            book_categoria = form.cleaned_data['categoria']
             book = Book(name=book_name,
                           release_year=book_release_year,
-                          capa_url=book_capa_url)
+                          capa_url=book_capa_url,
+                          categoria=book_categoria)
             book.save()
             return HttpResponseRedirect(
                 reverse('books:detail', args=(book.id, )))
@@ -96,6 +98,7 @@ def update_book(request, book_id):
             book.name = form.cleaned_data["name"]
             book.release_year = form.cleaned_data["release_year"]
             book.poster_url = form.cleaned_data["capa_url"]
+            book.categoria = form.cleaned_data['categoria']
             book.save()
             return HttpResponseRedirect(reverse("books:detail", args=(book.id,)))
     else:
@@ -104,11 +107,12 @@ def update_book(request, book_id):
                 "name": book.name,
                 "release_year": book.release_year,
                 "capa_url": book.capa_url,
+                'categoria': book.categoria,
             }
         )
 
-    context = {"movie": movie, "form": form}
-    return render(request, "movies/update.html", context)
+    context = {"book": book, "form": form}
+    return render(request, "books/update.html", context)
 
 
 
