@@ -11,6 +11,13 @@ class BookForm(ModelForm):
             'capa_url',
             'categoria',
         ]
+        labels = {
+            "name": "Título",
+            "categoria": "Ano de publicação",
+            "image_url": "URL da Imagem",
+            "categoria": "Categoria de Livro"
+        }
+
 
 class ReviewForm(ModelForm):
     class Meta:

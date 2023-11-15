@@ -27,7 +27,8 @@ def list_books(request):
     return render(request, 'books/index.html', context)
 
 
-
+@login_required
+@permission_required('books.delete_book')
 def delete_book(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
 
@@ -88,7 +89,8 @@ def create_review(request, pk):
     context = {'form': form, 'book': book}
     return render(request, 'books/review.html', context)
 
-
+@login_required
+@permission_required('books.update_book')
 def update_book(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
 
