@@ -12,6 +12,8 @@ from django.urls import reverse, reverse_lazy
 from .models import Book, Review, List
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
 
 
 class BookDetailView(generic.DetailView):
@@ -120,10 +122,24 @@ def update_book(request, book_id):
 
 def detail_book(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
-    context = {"book": book}
-    return render(request, "books/detail.html", context)
+    if 'last_viewed' not in request.session:
+        request.session['last_viewed'] = []
+    request.session['last_viewed'] = [book_id
+                                      ] + request.session['last_viewed']
+    if len(request.session['last_viewed']) > 5:
+        request.session['last_viewed'] = request.session['last_viewed'][:-1]
+    context = {'book': book}
+    return render(request, 'books/detail.html', context)
 
+def categorias(request):
+    categorias = Book.objects.values_list('categoria', flat=True).distinct()
+    categorias_e_livros = {}
+    
+    for categoria in categorias:
+        books = Book.objects.filter(categoria=categoria)
+        categorias_e_livros[categoria] = books
 
+    return render(request, 'books/categorias.html', {'categorias_e_livros': categorias_e_livros})
 
 
 class ListListView(generic.ListView):
