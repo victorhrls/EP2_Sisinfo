@@ -76,8 +76,8 @@ def create_book(request):
 
     
 @login_required
-def create_review(request, pk):
-    book = get_object_or_404(Book, pk=pk)
+def create_review(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
@@ -85,7 +85,7 @@ def create_review(request, pk):
             review_text = form.cleaned_data['text']
             book.review_set.create(author=review_author, text=review_text)
             return HttpResponseRedirect(
-                reverse('books:detail', args=(pk, )))
+                reverse('books:detail', args=(book_id, )))
     else:
         form = ReviewForm()
     context = {'form': form, 'book': book}
@@ -151,8 +151,20 @@ class ListListView(generic.ListView):
     template_name = 'books/lists.html'
 
 
-class ListCreateView(generic.CreateView):
+class ListCreateView(LoginRequiredMixin, PermissionRequiredMixin,
+                     generic.CreateView):
     model = List
     template_name = 'books/create_list.html'
     fields = ['name', 'author', 'books']
     success_url = reverse_lazy('books:lists')
+    permission_required = 'books.add_list'
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        # Exclude the 'author' field from the form
+        form.fields.pop('author', None)
+        return form
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
