@@ -76,16 +76,17 @@ def create_book(request):
 
     
 @login_required
-def create_review(request, book_id):
-    book = get_object_or_404(Book, pk=book_id)
+def create_review(request, pk):
+    book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
             review_author = request.user
             review_text = form.cleaned_data['text']
-            book.review_set.create(author=review_author, text=review_text)
+            comentario = Review(author=review_author, text=review_text, book=book)
+            comentario.save()
             return HttpResponseRedirect(
-                reverse('books:detail', args=(book_id, )))
+                reverse('books:detail', args=(pk, )))
     else:
         form = ReviewForm()
     context = {'form': form, 'book': book}

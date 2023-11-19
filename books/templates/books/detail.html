@@ -1,21 +1,24 @@
 {% extends 'base.html' %}
-
 {% block title %}
-{{ book.name }} ({{ book.release_year }} ({{book.categoria}})
+    <strong>{{ book.name }}</strong> (<a href="{% url 'books:posts_por_categoria' categoria=book.categoria %}"><strong>{{ book.categoria }}</strong></a>)
 {% endblock title %}
-
 {% block content %}
-<h2>Detalhes do Livro {{ book.name }} ({{ book.release_year }}) ({{book.categoria}}</h2>
-        <li>
-            <a href="{% url 'books:update' book.id %}">Editar</a>
-        </li>
-        <li>
-            <a href="{% url 'books:delete' book.id %}">Apagar</a>
-        </li>
-    </ul>
-</section>
-
-
+    <h2>{{ book.name }}</h2>
+    <section class="dados-de-investment">
+        <img src="{{ book.capa_url }}" alt="Capa do Livro {{ book.name }}">
+        <ul>
+            <li><u>Nome</u>: <strong>{{ book.name }}</strong></li>
+            <li><u>Categoria</u>: <strong><a href="{% url 'books:posts_por_categoria' categoria=book.categoria %}">{{ book.categoria }}</a></strong></li>
+            <li><u>Ano de publicação</u>: <strong>{{book.data}}</strong></li>
+            {% if book.list_set.all %}<li><u>Incluso nas listas</u>: {{ book.list_set.all|join:", " }}</li>{% endif %}
+            <li>
+                <a href="{% url 'books:update' book.id %}">Editar</a>
+            </li>
+            <li>
+                <a href="{% url 'books:delete' book.id %}">Apagar</a>
+            </li>
+        </ul>
+    </section>
 <hr>
 
 <section>
@@ -44,5 +47,3 @@
 </section>
 
 {% endblock content %}
-
-
