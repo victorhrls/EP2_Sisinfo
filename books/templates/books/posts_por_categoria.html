@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Artigos da Categoria: {{ categoria }}</h2>
+    <ul>
+        {% for book in books %}
+            <li>
+                <div style="margin-bottom: 20px;">
+                    <strong>{{ book.name }}</strong>
+                </div>
+                <div>
+                    <a href="{% url 'books:detail' book.id %}">
+                        <img src="{{ book.image_url }}" alt="{{ book.name }}" style="max-width: 200px; height: auto; display: block;">
+                    </a>
+                </div>
+            </li>
+        {% empty %}
+            <p>Nenhum livro foi encontrado para esta categoria.</p>
+        {% endfor %}
+    </ul>
+{% endblock %}

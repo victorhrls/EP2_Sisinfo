@@ -141,6 +141,10 @@ def categorias(request):
 
     return render(request, 'books/categorias.html', {'categorias_e_livros': categorias_e_livros})
 
+def posts_por_categoria(request, categoria):
+    books = Book.objects.filter(categoria=categoria)
+    return render(request, 'books/posts_por_categoria.html', {'books':books, 'categoria': categoria})
+
 
 class ListListView(generic.ListView):
     model = List
