@@ -26,8 +26,9 @@ SECRET_KEY = 'django-insecure-u=)*)rca(bu)0!po47kuaw9%3m(=n_ubqxxe+xz2$h@8myep)c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", ".onrender.com"]
 
+CSRF_TRUSTED_ORIGINS = ["https://*.onrender.com/"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -50,9 +51,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'booksite.urls'
+
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
