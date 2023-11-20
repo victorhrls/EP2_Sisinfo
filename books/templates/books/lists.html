@@ -2,8 +2,13 @@
 {% block title %}
     Listas
 {% endblock title %}
+
+
 {% block content %}
     <h2>Listas de Livros</h2>
+
+
+
     <section>
         {% for list in list_list %}
             <hr>
@@ -14,14 +19,18 @@
                 <div class="lista-de-cards">
                     {% for book in list.books.all %}
                         <div class="card">
-                            <a href="{% url 'books:detail' book.id %}">
-                                <img src="{{ book.capa_url }}" alt="Capa do livro {{ book.name }}">
+                            <a href="{% url 'books:detail' book.id %}"><img src="{{ book.capa_url }}" 
+                                alt="Capa do livro {{ book.name }}">
                             </a>
-                            <p>{{ book.name }} ({{ book.release_year }})</p>
+                            <p>{{ book.name }} ({{ book.categoria }})</p>
                         </div>
                     {% endfor %}
                 </div>
             </article>
         {% endfor %}
+
+        <a href="{% url 'books:create-list' %}"><button>Crie sua Lista</button></a>
     </section>
+
+
 {% endblock content %}

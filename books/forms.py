@@ -14,7 +14,7 @@ class BookForm(ModelForm):
         labels = {
             "name": "Título",
             "categoria": "Ano de publicação",
-            "image_url": "URL da Imagem",
+            "capa_url": "URL da Imagem",
             "categoria": "Categoria de Livro"
         }
 

@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<h2>Criticar Livro {{ book.name }} ({{ book.release_year }})</h2>
-
-<form action="{% url 'books:review' book.id %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Postar Critica</button>
-</form>
-
-<p><a href="{% url 'books:detail' book.id %}">Voltar para a página do livro</a></p>
+    <h2>Criticar Livro {{ book.name }} ({{ book.categoria }})</h2>
+    <form action="{% url 'books:review' book.id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Postar Critica</button>
+    </form>
+    <p>
+        <a href="{% url 'books:detail' book.id %}">Voltar para a página do livro</a>
+    </p>
 {% endblock content %}

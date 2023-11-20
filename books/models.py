@@ -13,7 +13,7 @@ class Book(models.Model):
     release_year = models.IntegerField()
     capa_url = models.URLField(max_length=200, null=True)
     categoria = models.CharField(max_length=255 , null = True)
-    #data = models.DateField(auto_now_add=True)
+    data = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.name}({self.categoria})({self.release_year})'
@@ -24,7 +24,7 @@ class Review(models.Model):
     text = models.CharField(max_length=255)
     likes = models.IntegerField(default=0)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    #data = models.DateField(auto_now_add=True)
+    data = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f'"{self.text}" - {self.author.username}'

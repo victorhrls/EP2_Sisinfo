@@ -29,17 +29,22 @@ class BookListView(generic.ListView):
 
 
 
-class BookDetailView(generic.DetailView):
-    model = Book
-    template_name = 'books/detail.html'
+#class BookDetailView(generic.DetailView):
+#    model = Book
+#    template_name = 'books/detail.html'
 
-def list_books(request):
-    book_list = Book.objects.all()
-    context = {'book_list': book_list}
-    last_book_id = request.session.get('last_viewed', None)
-    if last_book_id:
-        context["last_book"] = Book.objects.get(pk=last_book_id)
-    return render(request, 'books/index.html', context)
+class BookListView(generic.ListView):
+    model = Book
+    template_name = 'books/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'last_viewed' in self.request.session:
+            context['last_books'] = []
+            for book_id in self.request.session['last_viewed']:
+                context['last_books'].append(
+                    get_object_or_404(Book, pk=book_id))
+        return context
 
 
 @login_required
