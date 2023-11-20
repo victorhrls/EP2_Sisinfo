@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Todas as Categorias</h2>
+    <ul>
+        {% for categoria, books in categorias_e_livros.items %}
+            <li><a href="{% url 'books:posts_por_categoria' categoria=categoria %}">
+                <u style="text-decoration: underline;">{{ categoria }}</u>
+            </a></li>
+            <ul>
+                {% for book in books %}
+                    <li>
+                        <div style="margin-bottom: 10px;">
+                            <strong>{{ book.name }}</strong>
+                        </div>
+                        <a href="{% url 'books:detail' book.id %}">
+                            <img src="{{ book.image_url }}" alt="{{ book.name }}" style="max-width: 200px; height: auto; display: block;">
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+{% endblock %}

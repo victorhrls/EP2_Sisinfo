@@ -14,6 +14,19 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
+class BookListView(generic.ListView):
+    model = Book
+    template_name = 'books/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'last_viewed' in self.request.session:
+            context['last_books'] = []
+            for book_id in self.request.session['last_viewed']:
+                context['last_books'].append(
+                    get_object_or_404(Book, pk=book_id))
+        return context
+
 
 
 class BookDetailView(generic.DetailView):
